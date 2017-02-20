@@ -79,6 +79,7 @@ class Structure
 
     /**
      * The Offset
+     *
      * @var integer
      */
     protected $offset;
@@ -112,8 +113,8 @@ class Structure
         $this->limit           = 25;
         $this->offset          = 0;
         $this->spellCheck      = true;
-        $this->clustering      = [ 'clustering' => false ];
-        $this->sortOrder       = [ 'score' => 'desc' ];
+        $this->clustering      = ['clustering' => false];
+        $this->sortOrder       = ['score' => 'desc'];
         $this->facets          = [];
         $this->filters         = [];
         $this->contentTypesIds = [];
@@ -129,42 +130,36 @@ class Structure
      */
     public function geteZLegacyFindQuery()
     {
-        $ezfQuery            = [];
-        $ezfQuery['query'] = $this->getQuery();
-        $ezfQuery['limit'] = $this->getLimit();
-        $ezfQuery['offset'] = $this->getOffset();
-        $ezfQuery['sort_by'] = $this->getSortOrder();
-        $ezfQuery['as_objects'] = $this->getAsObjects();
-        $ezfQuery['spell_check'] = [ $this->getSpellCheck() ];
+        $ezfQuery                             = [];
+        $ezfQuery['query']                    = $this->getQuery();
+        $ezfQuery['limit']                    = $this->getLimit();
+        $ezfQuery['offset']                   = $this->getOffset();
+        $ezfQuery['sort_by']                  = $this->getSortOrder();
+        $ezfQuery['as_objects']               = $this->getAsObjects();
+        $ezfQuery['spell_check']              = [$this->getSpellCheck()];
         $ezfQuery['search_result_clustering'] = $this->getClustering();
 
-        if ( count( $this->getFilters() ) > 0 )
-        {
+        if (count($this->getFilters()) > 0) {
             $ezfQuery['filter'] = $this->getFilters();
         }
 
-        if ( count( $this->getExtendedFilters() ) > 0 )
-        {
+        if (count($this->getExtendedFilters()) > 0) {
             $ezfQuery['extended_attribute_filter'] = $this->getExtendedFilters();
         }
 
-        if ( count( $this->getSubtree() ) > 0 )
-        {
+        if (count($this->getSubtree()) > 0) {
             $ezfQuery['subtree_array'] = $this->getSubtree();
         }
 
-        if ( count( $this->getContentTypesIds() ) > 0 )
-        {
+        if (count($this->getContentTypesIds()) > 0) {
             $ezfQuery['class_id'] = $this->getContentTypesIds();
         }
 
-        if ( count( $this->getFacets() ) > 0 )
-        {
+        if (count($this->getFacets()) > 0) {
             $ezfQuery['facet'] = $this->getFacets();
         }
 
-        if ( count( $this->getFieldsToReturn() ) > 0 )
-        {
+        if (count($this->getFieldsToReturn()) > 0) {
             $ezfQuery['fields_to_return'] = $this->getFieldsToReturn();
         }
 
@@ -188,7 +183,7 @@ class Structure
      *
      * @return $this
      */
-    public function setQuery( $query )
+    public function setQuery($query)
     {
         $this->query = $query;
 
@@ -212,7 +207,7 @@ class Structure
      *
      * @return $this
      */
-    public function setSubtree( $subtree )
+    public function setSubtree($subtree)
     {
         $this->subtree = $subtree;
 
@@ -236,7 +231,7 @@ class Structure
      *
      * @return $this
      */
-    public function setFilters( $filters )
+    public function setFilters($filters)
     {
         $this->filters = $filters;
 
@@ -260,7 +255,7 @@ class Structure
      *
      * @return $this
      */
-    public function setExtendedFilters( $extendedFilters )
+    public function setExtendedFilters($extendedFilters)
     {
         $this->extendedFilters = $extendedFilters;
 
@@ -274,16 +269,13 @@ class Structure
      *
      * @return $this
      */
-    public function addFilters( $filters )
+    public function addFilters($filters)
     {
-        if ( !is_array( $filters ) )
-        {
+        if (!is_array($filters)) {
             return $this;
         }
-        foreach ( $filters as $filter )
-        {
-            if ( !$this->hasFilter( $filter ) )
-            {
+        foreach ($filters as $filter) {
+            if (!$this->hasFilter($filter)) {
                 $this->filters[] = $filter;
             }
         }
@@ -308,7 +300,7 @@ class Structure
      *
      * @return $this
      */
-    public function setFacets( $facets )
+    public function setFacets($facets)
     {
         $this->facets = $facets;
 
@@ -332,7 +324,7 @@ class Structure
      *
      * @return $this
      */
-    public function setContentTypesIds( $contentTypesIds )
+    public function setContentTypesIds($contentTypesIds)
     {
         $this->contentTypesIds = $contentTypesIds;
 
@@ -356,7 +348,7 @@ class Structure
      *
      * @return $this
      */
-    public function setSortOrder( $sortOrder )
+    public function setSortOrder($sortOrder)
     {
         $this->sortOrder = $sortOrder;
 
@@ -380,7 +372,7 @@ class Structure
      *
      * @return $this
      */
-    public function setSpellCheck( $spellCheck )
+    public function setSpellCheck($spellCheck)
     {
         $this->spellCheck = $spellCheck;
 
@@ -404,7 +396,7 @@ class Structure
      *
      * @return $this
      */
-    public function setLimit( $limit )
+    public function setLimit($limit)
     {
         $this->limit = $limit;
 
@@ -428,7 +420,7 @@ class Structure
      *
      * @return $this
      */
-    public function setOffset( $offset )
+    public function setOffset($offset)
     {
         $this->offset = $offset;
 
@@ -442,13 +434,12 @@ class Structure
      *
      * @return $this
      */
-    public function setPage( $page )
+    public function setPage($page)
     {
-        if ( $page < 1 )
-        {
+        if ($page < 1) {
             $this->offset = 0;
         }
-        $this->offset = ( $page - 1 ) * $this->getLimit();
+        $this->offset = ($page - 1) * $this->getLimit();
 
         return $this;
     }
@@ -470,7 +461,7 @@ class Structure
      *
      * @return $this
      */
-    public function setClustering( $clustering )
+    public function setClustering($clustering)
     {
         $this->clustering = $clustering;
 
@@ -484,9 +475,9 @@ class Structure
      *
      * @return bool
      */
-    public function hasToShowFacetName( $nameList )
+    public function hasToShowFacetName($nameList)
     {
-        return ( count( $nameList ) >= 2 );
+        return (count($nameList) >= 2);
     }
 
     /**
@@ -496,9 +487,9 @@ class Structure
      *
      * @return bool
      */
-    public function hasFilter( $filter )
+    public function hasFilter($filter)
     {
-        return in_array( $filter, $this->filters );
+        return in_array($filter, $this->filters);
     }
 
     /**
@@ -509,17 +500,13 @@ class Structure
     public function getNamedFilters()
     {
         $filtersNamed = [];
-        foreach ( $this->filters as $filter )
-        {
-            list( $solrAttribute, $solrValue ) = explode( ":", $filter );
-            $solrValue = trim( $solrValue, '"' );
-            foreach ( $this->facets as $facetInfos )
-            {
-                if ( preg_match( "/{$solrAttribute}/", $facetInfos['field'] ) )
-                {
+        foreach ($this->filters as $filter) {
+            list($solrAttribute, $solrValue) = explode(":", $filter);
+            $solrValue = trim($solrValue, '"');
+            foreach ($this->facets as $facetInfos) {
+                if (preg_match("/{$solrAttribute}/", $facetInfos['field'])) {
                     $filtersNamed[$filter]['name'] = $facetInfos['name'];
-                    if ( isset( $facetInfos['map'] ) && isset( $facetInfos['map'][$solrValue] ) )
-                    {
+                    if (isset($facetInfos['map']) && isset($facetInfos['map'][$solrValue])) {
                         $solrValue = $facetInfos['map'][$solrValue];
                     }
                     $filtersNamed[$filter]['value'] = $solrValue;
@@ -533,7 +520,7 @@ class Structure
     /**
      * Get the AsObjects
      *
-     * @return array
+     * @return bool
      */
     public function getAsObjects()
     {
@@ -547,7 +534,7 @@ class Structure
      *
      * @return $this
      */
-    public function setAsObjects( $asObjects )
+    public function setAsObjects($asObjects)
     {
         $this->asObjects = $asObjects;
 
@@ -571,9 +558,9 @@ class Structure
      *
      * @return $this
      */
-    public function setFieldsToReturn( $fieldsToReturn )
+    public function setFieldsToReturn($fieldsToReturn)
     {
-        $this->setAsObjects( false );
+        $this->setAsObjects(false);
         $this->fieldsToReturn = $fieldsToReturn;
 
         return $this;

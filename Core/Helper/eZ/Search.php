@@ -37,9 +37,9 @@ class Search
      * Constructor
      *
      * @param WrapperFactory $wrapperFactory
-     * @param \Closure            $kernel
+     * @param \Closure       $kernel
      */
-    public function __construct( WrapperFactory $wrapperFactory, \Closure $kernel )
+    public function __construct(WrapperFactory $wrapperFactory, \Closure $kernel)
     {
         $this->wrapperFactory = $wrapperFactory;
         $this->legacyKernel   = $kernel;
@@ -52,46 +52,46 @@ class Search
      *
      * @return Result
      */
-    public function search( Structure $structure )
+    public function search(Structure $structure)
     {
         /** @var \Closure $legacyKernelClosure */
         $legacyKernelClosure = $this->legacyKernel;
         $searchResults       = $legacyKernelClosure()->runCallback(
-            function () use ( $structure )
-            {
-                $results = [];
-                $resultsLegacy = eZFunctionHandler::execute( 'ezfind', 'search', $structure->geteZLegacyFindQuery() );
+            function () use ($structure) {
+                $results            = [];
+                $resultsLegacy      = eZFunctionHandler::execute(
+                    'ezfind',
+                    'search',
+                    $structure->geteZLegacyFindQuery()
+                );
                 $results['results'] = $resultsLegacy['SearchResult'];
-                $extraAttributes = $resultsLegacy['SearchExtras']->attributes();
+                $extraAttributes    = $resultsLegacy['SearchExtras']->attributes();
                 // we need to pre load the extra attribute, cause they are lazy loaded.. and on the Twig stack we won't
                 // be able to load the data
-                foreach ( $extraAttributes as $attr )
-                {
-                    $results['extras'][$attr] = $resultsLegacy['SearchExtras']->attribute( $attr );
+                foreach ($extraAttributes as $attr) {
+                    $results['extras'][$attr] = $resultsLegacy['SearchExtras']->attribute($attr);
                 }
                 $results['count'] = $resultsLegacy['SearchCount'];
+
                 return $results;
             }
         );
         $contentResults      = new Result();
-        $contentResults->setResultTotalCount( $searchResults['count'] );
-        $contentResults->setResultLimit( $structure->getLimit() );
-        $contentResults->setExtras( $searchResults['extras'] );
+        $contentResults->setResultTotalCount($searchResults['count']);
+        $contentResults->setResultLimit($structure->getLimit());
+        $contentResults->setExtras($searchResults['extras']);
         $searchResults = $searchResults['results'];
-        $extra = null;
-        foreach ( $searchResults as $result )
-        {
-            if ( $result instanceof eZFindResultNode ) {
-                $contentId = $result->ContentObject->ID;
+        $extra         = null;
+        foreach ($searchResults as $result) {
+            if ($result instanceof eZFindResultNode) {
+                $contentId  = $result->ContentObject->ID;
                 $locationId = $result->NodeID;
-            }
-            else
-            {
-                $contentId = $result['id'];
+            } else {
+                $contentId  = $result['id'];
                 $locationId = $result['main_node_id'];
-                $extra = $result;
+                $extra      = $result;
             }
-            $contentResults->addResult( $this->wrapperFactory->create( $contentId, $locationId, $extra ) );
+            $contentResults->addResult($this->wrapperFactory->create($contentId, $locationId, $extra));
         }
 
         return $contentResults;

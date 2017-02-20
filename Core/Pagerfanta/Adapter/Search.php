@@ -46,7 +46,7 @@ class Search implements AdapterInterface
      * @param SearchHelper $helper
      * @param Structure    $query
      */
-    public function __construct( SearchHelper $helper, Structure $query )
+    public function __construct(SearchHelper $helper, Structure $query)
     {
         $this->helper = $helper;
         $this->query  = $query;
@@ -57,27 +57,26 @@ class Search implements AdapterInterface
      */
     public function getNbResults()
     {
-        if ( isset( $this->nbResults ) )
-        {
+        if (isset($this->nbResults)) {
             return $this->nbResults;
         }
         $structure = clone $this->query;
-        $structure->setLimit( 0 );
-        return $this->nbResults = $this->helper->search( $structure )->getResultTotalCount();
+        $structure->setLimit(0);
+
+        return $this->nbResults = $this->helper->search($structure)->getResultTotalCount();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getSlice( $offset, $length )
+    public function getSlice($offset, $length)
     {
         $structure = clone $this->query;
-        $structure->setOffset( $offset );
-        $structure->setLimit( $length );
+        $structure->setOffset($offset);
+        $structure->setLimit($length);
 
-        $searchResult = $this->helper->search( $structure );
-        if ( !isset( $this->nbResults ) )
-        {
+        $searchResult = $this->helper->search($structure);
+        if (!isset($this->nbResults)) {
             $this->nbResults = $searchResult->getResultTotalCount();
         }
 

@@ -72,7 +72,7 @@ class Tag
      * @param array   $options
      * @param string  $lang
      *
-     * @return Tag
+     * @return TagValue
      */
     public function createTag($parentTagId, $name, $options = [], $lang = 'eng-US')
     {

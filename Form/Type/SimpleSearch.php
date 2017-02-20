@@ -25,24 +25,24 @@ class SimpleSearch extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    public function buildForm( FormBuilderInterface $builder, array $options )
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->setMethod('GET');
         $builder
-            ->setMethod( 'GET' )
-            ->add( 'query' )
+            ->add('query')
             ->add(
                 'filters',
                 'collection',
                 [
-                    'type'    => 'hidden',
-                    'allow_add' => true,
+                    'type'         => 'hidden',
+                    'allow_add'    => true,
                     'allow_delete' => true,
                     'delete_empty' => true,
-                    'label' => false,
-                    'required' => false
+                    'label'        => false,
+                    'required'     => false
                 ]
             )
-            ->add( 'search', 'submit' );
+            ->add('search', 'submit');
     }
 
     /**
@@ -50,7 +50,7 @@ class SimpleSearch extends AbstractType
      *
      * @param OptionsResolverInterface $resolver
      */
-    public function setDefaultOptions( OptionsResolverInterface $resolver )
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(
             [

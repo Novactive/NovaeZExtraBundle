@@ -17,46 +17,72 @@ interface EditHandlerInterface
     /**
      * Validate form input
      *
-     * @param \eZHTTPTool $http
-     * @param $module
-     * @param \eZContentClass $class
-     * @param \eZContentObject $object
+     * @param \eZHTTPTool             $http
+     * @param                         $module
+     * @param \eZContentClass         $class
+     * @param \eZContentObject        $object
      * @param \eZContentObjectVersion $version
-     * @param $contentObjectAttributes
-     * @param $editVersion
-     * @param $editLanguage
-     * @param $fromLanguage
-     * @param $validationParameters
+     * @param                         $contentObjectAttributes
+     * @param                         $editVersion
+     * @param                         $editLanguage
+     * @param                         $fromLanguage
+     * @param                         $validationParameters
+     *
      * @return mixed
      */
-    public function validateInput( $http, &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, $validationParameters );
+    public function validateInput(
+        $http,
+        &$module,
+        &$class,
+        $object,
+        &$version,
+        $contentObjectAttributes,
+        $editVersion,
+        $editLanguage,
+        $fromLanguage,
+        $validationParameters
+    );
 
     /**
      * We can store extra data here. And retrieve this data when publishing (create|update)
      *
-     * @param \eZHTTPTool $http
-     * @param $module
-     * @param \eZContentClass $class
-     * @param \eZContentObject $object
+     * @param \eZHTTPTool             $http
+     * @param                         $module
+     * @param \eZContentClass         $class
+     * @param \eZContentObject        $object
      * @param \eZContentObjectVersion $version
-     * @param $contentObjectAttributes
-     * @param $editVersion
-     * @param $editLanguage
-     * @param $fromLanguage
-     * @param $validationParameters
+     * @param                         $contentObjectAttributes
+     * @param                         $editVersion
+     * @param                         $editLanguage
+     * @param                         $fromLanguage
+     * @param                         $validationParameters
+     *
      * @return mixed
      */
-    public function prePublish( $http, $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, $validationParameters );
+    public function prePublish(
+        $http,
+        $module,
+        $class,
+        $object,
+        $version,
+        $contentObjectAttributes,
+        $editVersion,
+        $editLanguage,
+        $fromLanguage,
+        $validationParameters
+    );
 
     /**
      * @param \eZContentObject $object
+     *
      * @return mixed
      */
-    public function update( $object );
+    public function update($object);
 
     /**
      * @param \eZContentObject $object
+     *
      * @return mixed
      */
-    public function create( $object );
+    public function create($object);
 }

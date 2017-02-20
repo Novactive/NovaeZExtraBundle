@@ -24,21 +24,57 @@ abstract class EditHandler extends \eZContentObjectEditHandler
      * @param $editLanguage
      * @param $fromLanguage
      * @param $validationParameters
-     * @return array|void
+     *
+     * @return array
      */
-    function validateInput( $http, &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, $validationParameters ) {
-        $res = ['is_valid' => true, 'warnings' =>[]];
-        $contentClass = $object->attribute( 'content_class' );
-        $identifierClass = $contentClass->attribute( 'identifier' );
-        $service = $this->getService( $identifierClass );
-        if ( $service ) {
-            $res = $service->validateInput( $http, $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, $validationParameters );
-            if ( isset($res['is_valid']) && $res['is_valid'] == true ) {
+    function validateInput(
+        $http,
+        &$module,
+        &$class,
+        $object,
+        &$version,
+        $contentObjectAttributes,
+        $editVersion,
+        $editLanguage,
+        $fromLanguage,
+        $validationParameters
+    ) {
+        $res             = ['is_valid' => true, 'warnings' => []];
+        $contentClass    = $object->attribute('content_class');
+        $identifierClass = $contentClass->attribute('identifier');
+        $service         = $this->getService($identifierClass);
+        if ($service) {
+            $res = $service->validateInput(
+                $http,
+                $module,
+                $class,
+                $object,
+                $version,
+                $contentObjectAttributes,
+                $editVersion,
+                $editLanguage,
+                $fromLanguage,
+                $validationParameters
+            );
+            if (isset($res['is_valid']) && $res['is_valid'] == true) {
                 // store extra data during prePublish
-                $service->prePublish( $http, $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, $validationParameters );
+                $service->prePublish(
+                    $http,
+                    $module,
+                    $class,
+                    $object,
+                    $version,
+                    $contentObjectAttributes,
+                    $editVersion,
+                    $editLanguage,
+                    $fromLanguage,
+                    $validationParameters
+                );
             }
+
             return $res;
         }
+
         return $res;
     }
 
@@ -46,21 +82,22 @@ abstract class EditHandler extends \eZContentObjectEditHandler
      * @param $contentObjectID
      * @param $contentObjectVersion
      */
-    function publish( $contentObjectID, $contentObjectVersion ) {
+    function publish($contentObjectID, $contentObjectVersion)
+    {
         // fetch object
-        $object = \eZContentObject::fetch( $contentObjectID );
+        $object = \eZContentObject::fetch($contentObjectID);
         // get content class object
-        $contentClass = $object->attribute( 'content_class' );
-        $identifierClass = $contentClass->attribute( 'identifier' );
-        $service = $this->getService( $identifierClass );
-        if ( $service ) {
+        $contentClass    = $object->attribute('content_class');
+        $identifierClass = $contentClass->attribute('identifier');
+        $service         = $this->getService($identifierClass);
+        if ($service) {
             try {
-                if ( $contentObjectVersion > 1 ) {
-                    $service->update( $object );
+                if ($contentObjectVersion > 1) {
+                    $service->update($object);
                 } else {
-                    $service->create( $object );
+                    $service->create($object);
                 }
-            } catch( \Exception $e ) {
+            } catch (\Exception $e) {
                 //@todo: LOG exception
             }
         }
@@ -70,18 +107,21 @@ abstract class EditHandler extends \eZContentObjectEditHandler
      * Try to find edithandler service composed by identifierClass
      *
      * @param $identifierClass
+     *
      * @return null|EditHandlerInterface
      */
-    protected function getService( $identifierClass ) {
-        $serviceName = sprintf( self::BASE_SERVICE_NAME, $identifierClass );
-        $container = \ezpKernel::instance()->getServiceContainer();
+    protected function getService($identifierClass)
+    {
+        $serviceName = sprintf(self::BASE_SERVICE_NAME, $identifierClass);
+        $container   = \ezpKernel::instance()->getServiceContainer();
 
-        if ( $container->has($serviceName) ) {
+        if ($container->has($serviceName)) {
             $service = $container->get($serviceName);
-            if ( $service instanceof EditHandlerInterface ) {
+            if ($service instanceof EditHandlerInterface) {
                 return $service;
             }
         }
+
         return null;
     }
 }

@@ -77,7 +77,7 @@ abstract class Type
      *
      * @param ContentView $contentView
      */
-    public function setContentView( ContentView $contentView )
+    public function setContentView(ContentView $contentView)
     {
         $this->contentView = $contentView;
     }
@@ -87,7 +87,7 @@ abstract class Type
      *
      * @param Location $location
      */
-    public function setLocation( Location $location )
+    public function setLocation(Location $location)
     {
         $this->location = $location;
     }
@@ -97,7 +97,7 @@ abstract class Type
      *
      * @param Content $content
      */
-    public function setContent( Content $content )
+    public function setContent(Content $content)
     {
         $this->content = $content;
     }
@@ -105,17 +105,21 @@ abstract class Type
     /**
      * Constructor
      *
-     * @param Repository      $repository
-     * @param ContentHelper   $contentHelper
-     * @param SearchHelper    $searchHelper
-     * @param ConfigResolver  $configResolver
+     * @param Repository     $repository
+     * @param ContentHelper  $contentHelper
+     * @param SearchHelper   $searchHelper
+     * @param ConfigResolver $configResolver
      */
-    public function __construct( Repository $repository, ContentHelper $contentHelper, SearchHelper $searchHelper, ConfigResolver $configResolver )
-    {
-        $this->repository      = $repository;
-        $this->contentHelper   = $contentHelper;
-        $this->searchHelper    = $searchHelper;
-        $this->configResolver  = $configResolver;
+    public function __construct(
+        Repository $repository,
+        ContentHelper $contentHelper,
+        SearchHelper $searchHelper,
+        ConfigResolver $configResolver
+    ) {
+        $this->repository     = $repository;
+        $this->contentHelper  = $contentHelper;
+        $this->searchHelper   = $searchHelper;
+        $this->configResolver = $configResolver;
     }
 
     /**
@@ -128,7 +132,7 @@ abstract class Type
      *
      * @return array
      */
-    public function getChildren( $viewParameters )
+    public function getChildren($viewParameters)
     {
         return [];
     }
