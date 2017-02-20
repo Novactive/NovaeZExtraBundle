@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "novactive/collection": "dev-master",
+        "novactive/collection": "1.*",
         "phpoffice/phpexcel": "~1.8"
     },
     "require-dev": {
