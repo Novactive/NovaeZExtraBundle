@@ -28,5 +28,10 @@
     },
     "autoload": {
         "psr-4": {"Novactive\\Bundle\\eZExtraBundle\\": ""}
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
     }
 }
