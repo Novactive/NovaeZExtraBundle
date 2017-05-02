@@ -26,6 +26,12 @@ use Exception;
 class Wrapper implements \ArrayAccess
 {
     /**
+     * Static repository reference
+     * @var Repository
+     */
+    private static $staticRepository;
+
+    /**
      * The Content
      *
      * @var ValueContent
@@ -100,6 +106,26 @@ class Wrapper implements \ArrayAccess
     }
 
     /**
+     * __sleep
+     * @return array
+     */
+    public function __sleep()
+    {
+        return ['contentId', 'locationId', 'extraData'];
+    }
+
+    /**
+     * __wakeup
+     */
+    public function __wakeup()
+    {
+        if (self::$staticRepository == null) {
+            throw new \Exception('Error while accessing uninitialized Repository');
+        }
+        $this->repository = self::$staticRepository;
+    }
+
+    /**
      * Set the eZ Repository
      *
      * @param Repository $repository
@@ -108,6 +134,9 @@ class Wrapper implements \ArrayAccess
      */
     public function setRepository(Repository $repository)
     {
+        if (self::$staticRepository == null) {
+            self::$staticRepository = $repository;
+        }
         $this->repository = $repository;
 
         return $this;
