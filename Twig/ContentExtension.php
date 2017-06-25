@@ -29,32 +29,23 @@ class ContentExtension extends KernelContentExtension
      *
      * @return array
      */
-    public function getFunctions()
-    {
-        return array_merge(
-            parent::getFunctions(),
-            array (
-                'eznova_content_by_contentinfo'             => new Twig_Function_Method(
-                    $this, 'contentByContentInfo'
-                ),
-                'eznova_parentcontent_by_contentinfo'       => new Twig_Function_Method(
-                    $this, 'parentContentByContentInfo'
-                ),
-                'eznova_contenttype_by_content'             => new Twig_Function_Method(
-                    $this, 'contentTypeByContent'
-                ),
-                'eznova_location_by_content'                => new Twig_Function_Method(
-                    $this, 'locationByContent'
-                ),
-                'eznova_relation_field_to_content'          => new Twig_Function_Method(
-                    $this, 'relationFieldToContent'
-                ),
-                'eznova_relationlist_field_to_content_list' => new Twig_Function_Method(
-                    $this, 'relationsListFieldToContentList'
-                )
-            )
-        );
-    }
+     public function getFunctions()
+     {
+         return array_merge(
+             parent::getFunctions(),
+             [
+                 new  Twig_SimpleFunction('eznova_content_by_contentinfo', [$this, 'contentByContentInfo']),
+                 new  Twig_SimpleFunction('eznova_parentcontent_by_contentinfo', [$this, 'parentContentByContentInfo']),
+                 new  Twig_SimpleFunction('eznova_contenttype_by_content', [$this, 'contentTypeByContent']),
+                 new  Twig_SimpleFunction('eznova_location_by_content', [$this, 'locationByContent']),
+                 new  Twig_SimpleFunction('eznova_relation_field_to_content', [$this, 'relationFieldToContent']),
+                 new  Twig_SimpleFunction(
+                     'eznova_relationlist_field_to_content_list',
+                     [$this, 'relationsListFieldToContentList']
+                 ),
+             ]
+         );
+     }
 
     /**
      * ContentByContentInfo
