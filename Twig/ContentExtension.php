@@ -16,7 +16,7 @@ use eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\ContentExtension as Ke
 use eZ\Publish\Core\FieldType\Relation\Value as RelationValue;
 use eZ\Publish\Core\FieldType\RelationList\Value as RelationListValue;
 use Twig_Extension;
-use Twig_Function_Method;
+use Twig_SimpleFunction;
 
 /**
  * Class ContentExtension
