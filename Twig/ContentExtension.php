@@ -35,22 +35,22 @@ class ContentExtension extends KernelContentExtension
             parent::getFunctions(),
             array (
                 'eznova_content_by_contentinfo'             => new Twig_SimpleFunction(
-                    $this->getName(), 'contentByContentInfo'
+                    'eznova_content_by_contentinfo', array($this, 'contentByContentInfo')
                 ),
                 'eznova_parentcontent_by_contentinfo'       => new Twig_SimpleFunction(
-                    $this->getName(), 'parentContentByContentInfo'
+					'eznova_parentcontent_by_contentinfo', array($this, 'parentContentByContentInfo')
                 ),
                 'eznova_contenttype_by_content'             => new Twig_SimpleFunction(
-                    $this->getName(), 'contentTypeByContent'
+					'eznova_contenttype_by_content', array($this, 'contentTypeByContent')
                 ),
                 'eznova_location_by_content'                => new Twig_SimpleFunction(
-                    $this->getName(), 'locationByContent'
+					'eznova_location_by_content', array($this, 'locationByContent')
                 ),
                 'eznova_relation_field_to_content'          => new Twig_SimpleFunction(
-                    $this->getName(), 'relationFieldToContent'
+					'eznova_relation_field_to_content', array($this, 'relationFieldToContent')
                 ),
                 'eznova_relationlist_field_to_content_list' => new Twig_SimpleFunction(
-                    $this->getName(), 'relationsListFieldToContentList'
+					'eznova_relationlist_field_to_content_list', array($this, 'relationsListFieldToContentList')
                 )
             )
         );
