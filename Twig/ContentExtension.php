@@ -16,7 +16,7 @@ use eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\ContentExtension as Ke
 use eZ\Publish\Core\FieldType\Relation\Value as RelationValue;
 use eZ\Publish\Core\FieldType\RelationList\Value as RelationListValue;
 use Twig_Extension;
-use Twig_Function_Method;
+use Twig_SimpleFunction;
 
 /**
  * Class ContentExtension
@@ -34,23 +34,23 @@ class ContentExtension extends KernelContentExtension
         return array_merge(
             parent::getFunctions(),
             array (
-                'eznova_content_by_contentinfo'             => new Twig_Function_Method(
-                    $this, 'contentByContentInfo'
+                'eznova_content_by_contentinfo'             => new Twig_SimpleFunction(
+                    $this->getName(), 'contentByContentInfo'
                 ),
-                'eznova_parentcontent_by_contentinfo'       => new Twig_Function_Method(
-                    $this, 'parentContentByContentInfo'
+                'eznova_parentcontent_by_contentinfo'       => new Twig_SimpleFunction(
+                    $this->getName(), 'parentContentByContentInfo'
                 ),
-                'eznova_contenttype_by_content'             => new Twig_Function_Method(
-                    $this, 'contentTypeByContent'
+                'eznova_contenttype_by_content'             => new Twig_SimpleFunction(
+                    $this->getName(), 'contentTypeByContent'
                 ),
-                'eznova_location_by_content'                => new Twig_Function_Method(
-                    $this, 'locationByContent'
+                'eznova_location_by_content'                => new Twig_SimpleFunction(
+                    $this->getName(), 'locationByContent'
                 ),
-                'eznova_relation_field_to_content'          => new Twig_Function_Method(
-                    $this, 'relationFieldToContent'
+                'eznova_relation_field_to_content'          => new Twig_SimpleFunction(
+                    $this->getName(), 'relationFieldToContent'
                 ),
-                'eznova_relationlist_field_to_content_list' => new Twig_Function_Method(
-                    $this, 'relationsListFieldToContentList'
+                'eznova_relationlist_field_to_content_list' => new Twig_SimpleFunction(
+                    $this->getName(), 'relationsListFieldToContentList'
                 )
             )
         );
