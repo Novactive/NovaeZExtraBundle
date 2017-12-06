@@ -13,41 +13,41 @@ parameters:
 services:
 
     novactive.ezextra.wrapper.factory:
-        class: %novactive.ezextra.wrapper.factory.class%
-        arguments: [@ezpublish.api.repository]
+        class: "%novactive.ezextra.wrapper.factory.class%"
+        arguments: ["@ezpublish.api.repository"]
 
     novactive.ezextra.content.manager:
-        class: %novaezextra.content.manager.class%
-        arguments: [@ezpublish.api.repository]
+        class: "%novaezextra.content.manager.class%"
+        arguments: ["@ezpublish.api.repository"]
 
     novactive.ezextra.content_type.manager:
-        class: %novaezextra.content_type.manager.class%
-        arguments: [@ezpublish.api.repository]
+        class: "%novaezextra.content_type.manager.class%"
+        arguments: ["@ezpublish.api.repository"]
 
     novactive.ezextra.tag.manager:
-        class: %novaezextra.tag.manager.class%
-        arguments: [@ezpublish.api.service.tags]
+        class: "%novaezextra.tag.manager.class%"
+        arguments: ["@ezpublish.api.service.tags"]
 
     novactive.ezextra.content.helper:
-        class: %novaezextra.content.helper.class%
-        arguments: [@ezpublish.api.repository, @novactive.ezextra.wrapper.factory]
+        class: "%novaezextra.content.helper.class%"
+        arguments: ["@ezpublish.api.repository", "@novactive.ezextra.wrapper.factory"]
 
     novactive.ezextra.search.helper:
-        class: %novaezextra.search.helper.class%
-        arguments: [@novactive.ezextra.wrapper.factory, @ezpublish_legacy.kernel]
+        class: "%novaezextra.search.helper.class%"
+        arguments: ["@novactive.ezextra.wrapper.factory", "@ezpublish_legacy.kernel"]
 
     novactive.ezextra.pre_content_view_listener:
-        class: %novaezextra.pre_content_view_listener.class%
-        arguments: [@ezpublish.api.repository, @ezpublish.templating.global_helper, @request_stack]
+        class: "%novaezextra.pre_content_view_listener.class%"
+        arguments: ["@ezpublish.api.repository", "@ezpublish.templating.global_helper", "@request_stack"]
         tags:
             - {name: kernel.event_listener, event: ezpublish.pre_content_view, method: onPreContentView}
 
     novactive.ezextra.abstract.children.provider:
-        class: %novaezextra.abstract.children.provider.class%
+        class: "%novaezextra.abstract.children.provider.class%"
         abstract: true
-        arguments: [@ezpublish.api.repository, @novactive.ezextra.content.helper, @novactive.ezextra.search.helper, @ezpublish.config.resolver]
+        arguments: ["@ezpublish.api.repository", "@novactive.ezextra.content.helper", "@novactive.ezextra.search.helper", "@ezpublish.config.resolver"]
 
     novactive.ezextra.form.type.search.simple:
-        class: %novactive.ezextra.form.type.search.simple.class%
+        class: "%novactive.ezextra.form.type.search.simple.class%"
         tags:
             - { name: form.type, alias: novactive_ezextra_simple_search }
