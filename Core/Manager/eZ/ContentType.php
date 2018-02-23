@@ -100,7 +100,7 @@ class ContentType
         $contentTypeData,
         $contentTypeFieldDefinitionsData,
         $options = [],
-        $lang = 'eng-US'
+        $lang = 'eng-GB'
     ) {
         $contentTypeService      = $this->getContentTypeService();
         $contentTypeGroup        = $contentTypeService->loadContentTypeGroupByIdentifier($contentTypeGroupIdentifier);
@@ -130,7 +130,7 @@ class ContentType
         $contentTypeData,
         $contentTypeFieldDefinitionsData,
         $options = [],
-        $lang = 'eng-US'
+        $lang = 'eng-GB'
     ) {
         $contentTypeService = $this->getContentTypeService();
 
@@ -377,7 +377,7 @@ class ContentType
         $contentTypeData,
         $contentTypeFieldDefinitionsData,
         $options = [],
-        $lang = 'eng-US'
+        $lang = 'eng-GB'
     ) {
         $contentTypeService = $this->getContentTypeService();
 
@@ -431,7 +431,7 @@ class ContentType
         $contentTypeData,
         $contentTypeFieldDefinitionsData,
         $options = [],
-        $lang = 'eng-US'
+        $lang = 'eng-GB'
     ) {
         $options['do_no_update'] = true;
         $contentTypeService      = $this->getContentTypeService();

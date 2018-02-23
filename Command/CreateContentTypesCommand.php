@@ -14,8 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use eZ\Publish\API\Repository\Repository;
-use PHPExcel_IOFactory;
-use PHPExcel_Cell;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use eZ\Publish\Core\Base\Exceptions\ContentTypeFieldDefinitionValidationException;
 use eZ\Publish\Core\FieldType\ValidationError;
 
@@ -67,8 +66,8 @@ class CreateContentTypesCommand extends ContainerAwareCommand
             return false;
         }
 
-        $oPHPExcel = PHPExcel_IOFactory::load($filepath);
-        if (!$oPHPExcel) {
+        $spreadsheet = IOFactory::load($filepath);
+        if (!$spreadsheet) {
             $output->writeln("<error>Failed to load data</error>");
 
             return false;
@@ -76,22 +75,22 @@ class CreateContentTypesCommand extends ContainerAwareCommand
 
         $contentTypeManager = $this->getContainer()->get("novactive.ezextra.content_type.manager");
 
-        foreach ($oPHPExcel->getWorksheetIterator() as $oWorksheet) {
+        foreach ($spreadsheet->getWorksheetIterator() as $worksheet) {
             $excludedTemplatesSheets = ["ContentType Template", "FieldTypes"];
-            if (in_array($oWorksheet->getTitle(), $excludedTemplatesSheets)) {
+            if (in_array($worksheet->getTitle(), $excludedTemplatesSheets)) {
                 continue;
             }
-            $output->writeln($oWorksheet->getTitle());
+            $output->writeln($worksheet->getTitle());
 
             // Mapping
 
             $lang                     = $translation;
-            $contentTypeName          = $oWorksheet->getCell("B2")->getValue();
-            $contentTypeIdentifier    = $oWorksheet->getCell("B3")->getValue();
-            $contentTypeDescription   = $oWorksheet->getCell("B4")->getValue();
-            $contentTypeObjectPattern = $oWorksheet->getCell("B5")->getValue();
-            $contentTypeURLPattern    = $oWorksheet->getCell("B6")->getValue();
-            $contentTypeContainer     = $oWorksheet->getCell("B7")->getValue() == "yes" ? true : false;
+            $contentTypeName          = $worksheet->getCell("B2")->getValue();
+            $contentTypeIdentifier    = $worksheet->getCell("B3")->getValue();
+            $contentTypeDescription   = $worksheet->getCell("B4")->getValue();
+            $contentTypeObjectPattern = $worksheet->getCell("B5")->getValue();
+            $contentTypeURLPattern    = $worksheet->getCell("B6")->getValue();
+            $contentTypeContainer     = $worksheet->getCell("B7")->getValue() == "yes" ? true : false;
 
             if (!$contentTypeDescription) {
                 $contentTypeDescription = "Content Type Description - To be defined";
@@ -104,15 +103,14 @@ class CreateContentTypesCommand extends ContainerAwareCommand
                 'descriptions'   => $contentTypeDescription,
             ];
             $contentTypeFieldDefinitionsData = [];
-            foreach ($oWorksheet->getRowIterator() as $row) {
+            foreach ($worksheet->getRowIterator() as $row) {
                 $rowIndex        = $row->getRowIndex();
-                $fieldIdentifier = $oWorksheet->getCell("B{$rowIndex}")->getValue();
+                $fieldIdentifier = $worksheet->getCell("B{$rowIndex}")->getValue();
                 if (($rowIndex) >= 11 && ($fieldIdentifier != '')) {
                     $cellIterator = $row->getCellIterator();
                     $cellIterator->setIterateOnlyExistingCells(false); // Loop all cells, even if it is not set
                     $contentTypeFieldsData = [];
                     foreach ($cellIterator as $cell) {
-                        /** @var PHPExcel_Cell $cell */
                         if (!is_null($cell)) {
                             $cellValue = trim($cell->getValue());
                             switch ($cell->getColumn()) {
