@@ -15,6 +15,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\MVC\Symfony\Templating\GlobalHelper;
 use eZ\Publish\Core\MVC\Symfony\View\ContentView;
+use EzSystems\EzPlatformAdminUi\Specification\SiteAccess\IsAdmin;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class PreContentViewListener
@@ -42,16 +44,28 @@ class PreContentViewListener
      */
     protected $types;
 
+    /** @var \Symfony\Component\HttpFoundation\RequestStack */
+    private $requestStack;
+
+    /** @var array */
+    private $siteAccessGroups;
+
     /**
      * Constructor
      *
      * @param Repository   $repository
      * @param GlobalHelper $gHelper
      */
-    public function __construct(Repository $repository, GlobalHelper $gHelper)
-    {
+    public function __construct(
+        Repository $repository,
+        GlobalHelper $gHelper,
+        RequestStack $requestStack,
+        array $siteAccessGroups
+    ) {
         $this->repository           = $repository;
         $this->templateGlobalHelper = $gHelper;
+        $this->requestStack         = $requestStack;
+        $this->siteAccessGroups     = $siteAccessGroups;
     }
 
     /**
@@ -101,8 +115,12 @@ class PreContentViewListener
         }
 
         if (is_string($viewType) && $location instanceof Location) {
-            if ($location->invisible == 1 or $location->hidden == 1) {
-                throw new NotFoundHttpException("Page not found");
+            if ( ( $location->invisible == 1 or $location->hidden == 1 ) and
+                 !( new IsAdmin( $this->siteAccessGroups ) )->isSatisfiedBy(
+                     $this->requestStack->getCurrentRequest()->attributes->get( 'siteaccess' )
+                 ) )
+            {
+                throw new NotFoundHttpException( "Page not found" );
             }
 
             $identifier = $this->repository->getContentTypeService()->loadContentType(
