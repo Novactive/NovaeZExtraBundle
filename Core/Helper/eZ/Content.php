@@ -121,7 +121,7 @@ class Content
             $query->sortClauses = $sortClauses;
         }
 
-        $query->limit  = $limit === null ? PHP_INT_MAX : $limit;
+        $query->limit  = $limit === null ? 2147483647 : $limit;
         $query->offset = $offset;
 
         return $query;
