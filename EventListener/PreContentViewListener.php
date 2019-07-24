@@ -116,10 +116,10 @@ class PreContentViewListener
 
         if (is_string($viewType) && $location instanceof Location) {
             if ( ( $location->invisible == 1 or $location->hidden == 1 ) and
-                 !( new IsAdmin( $this->siteAccessGroups ) )->isSatisfiedBy(
-                     $this->requestStack->getCurrentRequest()->attributes->get( 'siteaccess' )
-                 ) )
-            {
+                (!( new IsAdmin( $this->siteAccessGroups ) )->isSatisfiedBy(
+                    $this->requestStack->getCurrentRequest()->attributes->get( 'siteaccess' )
+                ) and !$this->requestStack->getCurrentRequest()->attributes->get( 'isPreview' ))
+            ) {
                 throw new NotFoundHttpException( "Page not found" );
             }
 
